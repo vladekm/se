@@ -165,7 +165,7 @@ function turn_right(){
 
 api.get("/info", function (request){
     return {
-        "name": "Tom the Tank",
+        "name": "Walls must Die!",
         "owner": "Sean and Vlad"
     };
 });
