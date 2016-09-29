@@ -4,10 +4,25 @@ var ApiBuilder = require('claudia-api-builder'),
 module.exports = api;
 
 
-function wall_in_range(walls, me, visibility){
-    if (me.direction == 'top'){
-        for (q=1; q <= visibility; q++){
+function wall_in_range(walls, me, weapon_range){
+    for (q=0; q <= weapon_range; q++){
+        if (me.direction == 'top'){
             if (is_wall(walls, me.x, me.y-q)){
+                return true;
+            }
+        }
+        if (me.direction == 'bottom'){
+            if (is_wall(walls, me.x, me.y+q)){
+                return true;
+            }
+        }
+        if (me.direction == 'left'){
+            if (is_wall(walls, me.x-q, me.y)){
+                return true;
+            }
+        }
+        if (me.direction == 'right'){
+            if (is_wall(walls, me.x+q, me.y)){
                 return true;
             }
         }
@@ -24,10 +39,25 @@ function is_wall(walls, x, y){
     return false;
 }
 
-function enemy_in_range(enemies, me, visibility){
-    if (me.direction == 'top'){
-        for (q=1; q <= visibility; q++){
-            if (is_wall(enemies, me.x, me.y-q)){
+function enemy_in_range(enemies, me, weapon_range){
+    for (q=0; q <= weapon_range; q++){
+        if (me.direction == 'top'){
+            if (is_enemy(enemies, me.x, me.y-q)){
+                return true;
+            }
+        }
+        if (me.direction == 'bottom'){
+            if (is_enemy(enemies, me.x, me.y+q)){
+                return true;
+            }
+        }
+        if (me.direction == 'left'){
+            if (is_enemy(enemies, me.x-q, me.y)){
+                return true;
+            }
+        }
+        if (me.direction == 'right'){
+            if (is_enemy(enemies, me.x+q, me.y)){
                 return true;
             }
         }
@@ -64,17 +94,16 @@ api.get('/info', function (request){
 
 api.post('/command', function (request){
     var walls = request.body.walls;
-    var me = request.body.you
-    var visibility = request.body.visibility
     var enemies = request.body.enemies
-
-    if (wall_in_range(walls, me, visibility)){
+    var me = request.body.you;
+    var weapon_range = request.body.weaponRange;
+    if (wall_in_range(walls, me, weapon_range)){
         return fire();
     };
     if (enemy_in_range(enemies, me, visibility)){
         return fire();
-    } else {
-        return move_forward();
     }
+    return move_forward();
+
 });
 
