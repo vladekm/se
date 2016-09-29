@@ -27,7 +27,7 @@ function wall_in_range(walls, me, weapon_range){
             }
         }
     }
-    return false
+    return false;
 }
 
 function is_wall(walls, x, y){
@@ -40,27 +40,71 @@ function is_wall(walls, x, y){
 }
 
 function enemy_in_range(enemies, me, weapon_range){
+    //
     for (q=0; q <= weapon_range; q++){
+        var has_left_enemy = is_enemy(enemies, me.x-q, me.y)
+        var has_right_enemy = is_enemy(enemies, me.x+q, me.y-q)
+        var has_top_enemy = is_enemy(enemies, me.x, me.y-q)
+        var has_bottom_enemy = is_enemy(enemies, me.x, me.y+q)
+
         if (me.direction == 'top'){
-            if (is_enemy(enemies, me.x, me.y-q)){
-                return true;
+            if (has_top_enemy){
+                return 'fire';
+            }
+            if (has_bottom_enemy){
+                return 'turn-left';
+            }
+            if (has_left_enemy) {
+                return 'turn-left';
+            }
+            if (has_right_enemy) {
+                return 'turn-right';
             }
         }
         if (me.direction == 'bottom'){
-            if (is_enemy(enemies, me.x, me.y+q)){
-                return true;
+            if (has_top_enemy){
+                return 'turn-left';
+            }
+            if (has_bottom_enemy){
+                return 'fire';
+            }
+            if (has_left_enemy) {
+                return 'turn-left';
+            }
+            if (has_right_enemy) {
+                return 'turn-right';
             }
         }
         if (me.direction == 'left'){
-            if (is_enemy(enemies, me.x-q, me.y)){
-                return true;
+            if (has_top_enemy){
+                return 'turn-right';
+            }
+            if (has_bottom_enemy){
+                return 'turn-left';
+            }
+            if (has_left_enemy) {
+                return 'fire';
+            }
+            if (has_right_enemy) {
+                return 'turn-left';
             }
         }
         if (me.direction == 'right'){
-            if (is_enemy(enemies, me.x+q, me.y)){
-                return true;
+            if (has_top_enemy){
+                return 'turn-left';
+            }
+            if (has_bottom_enemy){
+                return 'turn-right';
+            }
+            if (has_left_enemy) {
+                return 'turn-left';
+            }
+            if (has_right_enemy) {
+                return 'fire';
             }
         }
+
+
     }
     return false
 }
@@ -77,6 +121,18 @@ function is_enemy(enemies, x, y){
 function fire(){
     return {
         "command": 'fire'
+    };
+}
+
+function turn_left(){
+    return {
+        "command": 'turn-left'
+    };
+}
+
+function turn_right(){
+    return {
+        "command": 'turn-right'
     };
 }
 
@@ -100,8 +156,12 @@ api.post('/command', function (request){
     if (wall_in_range(walls, me, weapon_range)){
         return fire();
     };
-    if (enemy_in_range(enemies, me, visibility)){
+    if (enemy_in_range(enemies, me, weapon_range) == 'fire'){
         return fire();
+    } else if (enemy_in_range(enemies, me, weapon_range) == 'turn_left') {
+        return turn_left();
+    } else if (enemy_in_range(enemies, me, weapon_range) == 'turn_right') {
+        return turn_right();
     }
     return move_forward();
 
