@@ -8,22 +8,26 @@ api.get('/info', function (request){
     return {
         "name": "Tom the Tank",
         "owner": "Sean and Vlad"
-    }
+    };
 });
 
 api.post('/command', function (request){
-    return {
-        command: 'fire'
+    if (request.walls == null){
+        return move_forward();
+    } else {
+        return fire();
     }
-
 });
 
 
-api.get('/', function (request) {
-    return 'Hi there baby' + request.queryString.name;
-});
+function fire(){
+    return {
+        "command": 'fire'
+    };
+}
 
-
-api.get('/people/{name}', function (request){
-    return 'Yes, ' + request.pathParams.name;
-});
+function move_forward(){
+    return {
+        "command": 'forward'
+    };
+}
