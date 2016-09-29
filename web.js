@@ -126,8 +126,6 @@ function enemy_in_range(enemies, me, weapon_range){
                 return "fire";
             }
         }
-
-
     }
     return false
 }
