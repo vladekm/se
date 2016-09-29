@@ -1,0 +1,11 @@
+{
+  "lambda": {
+    "role": "webjs-executor",
+    "name": "webjs",
+    "region": "us-west-2"
+  },
+  "api": {
+    "id": "09qp4opta1",
+    "module": "web"
+  }
+}
