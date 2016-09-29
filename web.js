@@ -7,7 +7,7 @@ module.exports = api;
 function wall_in_range(walls, me, visibility){
     if (me.direction == 'top'){
         for (q=1; q <= visibility; q++){
-            if (is_wall(walls, me.x, me.y+q)){
+            if (is_wall(walls, me.x, me.y-q)){
                 return true;
             }
         }
@@ -16,7 +16,6 @@ function wall_in_range(walls, me, visibility){
 }
 
 function is_wall(walls, x, y){
-    return false;
     for (index = 0; index<walls.length; index++){
         if ((walls[index].x == x) && (walls[index].y == y)){
             return true
