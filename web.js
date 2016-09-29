@@ -9,8 +9,15 @@ api.get('/info', function (){
         "name": "Tom the Tank",
         "owner": "Sean and Vlad"
     }
-}
-)
+});
+
+api.get('/command', function (){
+    return {
+        command: 'fire'
+    }
+
+});
+
 
 api.get('/', function (request) {
     return 'Hi there baby' + request.queryString.name;
