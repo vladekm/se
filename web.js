@@ -3,6 +3,15 @@ var ApiBuilder = require('claudia-api-builder'),
 
 module.exports = api;
 
+
+api.get('/info', function (){
+    return {
+        "name": "Tom the Tank",
+        "owner": "Sean and Vlad"
+    }
+}
+)
+
 api.get('/', function (request) {
     return 'Hi there baby' + request.queryString.name;
 });
