@@ -4,14 +4,14 @@ var ApiBuilder = require('claudia-api-builder'),
 module.exports = api;
 
 
-api.get('/info', function (){
+api.get('/info', function (request){
     return {
         "name": "Tom the Tank",
         "owner": "Sean and Vlad"
     }
 });
 
-api.get('/command', function (){
+api.post('/command', function (request){
     return {
         command: 'fire'
     }
