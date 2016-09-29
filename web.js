@@ -4,30 +4,24 @@ var ApiBuilder = require('claudia-api-builder'),
 module.exports = api;
 
 
-function wall_in_range(walls, me, visibility){
-    if (me.direction == 'top'){
-        for (q=0; q <= visibility; q++){
+function wall_in_range(walls, me, weapon_range){
+    for (q=0; q <= weapon_range; q++){
+        if (me.direction == 'top'){
             if (is_wall(walls, me.x, me.y-q)){
                 return true;
             }
         }
-    }
-    if (me.direction == 'bottom'){
-        for (q=0; q <= visibility; q++){
+        if (me.direction == 'bottom'){
             if (is_wall(walls, me.x, me.y+q)){
                 return true;
             }
         }
-    }
-    if (me.direction == 'left'){
-        for (q=0; q <= visibility; q++){
+        if (me.direction == 'left'){
             if (is_wall(walls, me.x-q, me.y)){
                 return true;
             }
         }
-    }
-    if (me.direction == 'right'){
-        for (q=0; q <= visibility; q++){
+        if (me.direction == 'right'){
             if (is_wall(walls, me.x+q, me.y)){
                 return true;
             }
@@ -65,9 +59,9 @@ api.get('/info', function (request){
 
 api.post('/command', function (request){
     var walls = request.body.walls;
-    var me = request.body.you
-    var visibility = request.body.visibility
-    if (wall_in_range(walls, me, visibility)){
+    var me = request.body.you;
+    var weapon_range = request.body.weaponRange;
+    if (wall_in_range(walls, me, weapon_range)){
         return fire();
     } else {
         return move_forward();
