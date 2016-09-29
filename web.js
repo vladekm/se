@@ -126,8 +126,6 @@ function enemy_in_range(enemies, me, weapon_range){
                 return "fire";
             }
         }
-
-
     }
     return false
 }
@@ -144,18 +142,6 @@ function is_enemy(enemies, x, y){
 function fire(){
     return {
         "command": "fire"
-    };
-}
-
-function turn_left(){
-    return {
-        "command": "turn-left"
-    };
-}
-
-function turn_right(){
-    return {
-        "command": "turn-right"
     };
 }
 
