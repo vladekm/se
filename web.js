@@ -4,28 +4,10 @@ var ApiBuilder = require('claudia-api-builder'),
 module.exports = api;
 
 
-api.get('/info', function (request){
-    return {
-        "name": "Tom the Tank",
-        "owner": "Sean and Vlad"
-    };
-});
-
-api.post('/command', function (request){
-    var walls = request.body.walls;
-    var me = request.you
-    var visibility = request.body.visibility
-    if (wall_in_range(walls, me, visibility)){
-        return fire();
-    } else {
-        return move_forward();
-    }
-});
-
-function wall_in_range(walls, me, visbility){
+function wall_in_range(walls, me, visibility){
     if (me.direction == 'top'){
-        for (var q=0; q<visibility; q++){
-            if is_wall(walls, me.x, me.y+q){
+        for (q=1; q <= visibility; q++){
+            if (is_wall(walls, me.x, me.y+q)){
                 return true;
             }
         }
@@ -34,8 +16,9 @@ function wall_in_range(walls, me, visbility){
 }
 
 function is_wall(walls, x, y){
-    for (var index; index<walls.length(); index++){
-        if ((walls(index).x == x) && (wall(index).y == y)){
+    return false;
+    for (index = 0; index<walls.length; index++){
+        if ((walls[index].x == x) && (walls[index].y == y)){
             return true
         }
     }
@@ -53,3 +36,21 @@ function move_forward(){
         "command": 'forward'
     };
 }
+api.get('/info', function (request){
+    return {
+        "name": "Tom the Tank",
+        "owner": "Sean and Vlad"
+    };
+});
+
+api.post('/command', function (request){
+    var walls = request.body.walls;
+    var me = request.body.you
+    var visibility = request.body.visibility
+    if (wall_in_range(walls, me, visibility)){
+        return fire();
+    } else {
+        return move_forward();
+    }
+});
+
