@@ -5,7 +5,7 @@ module.exports = api;
 
 
 function wall_in_range(walls, me, weapon_range){
-    for (q=0; q <= weapon_range; q+=1){
+    for (q=0; q <= weapon_range; q++){
         if (me.direction == "top"){
             if (is_wall(walls, me.x, me.y-q)){
                 return true;
@@ -31,7 +31,7 @@ function wall_in_range(walls, me, weapon_range){
 }
 
 function is_wall(walls, x, y){
-    for (index = 0; index<walls.length; index+=1){
+    for (index = 0; index<walls.length; index++){
         if ((walls[index].x == x) && (walls[index].y == y)){
             return true
         }
@@ -170,7 +170,7 @@ api.get("/info", function (request){
     };
 });
 
-api.post("/command", fun)tion (request){
+api.post("/command", function (request){
     var walls = request.body.walls;
     var enemies = request.body.enemies
     var me = request.body.you;
@@ -178,7 +178,7 @@ api.post("/command", fun)tion (request){
     var field_width = request.body.mapWidth;
     var field_height = request.body.mapHeight;
 
-    if is_boundary(field_width, field_height, me){
+    if (is_boundary(field_width, field_height, me)){
         return turn_left();
     }
     if (wall_in_range(walls, me, weapon_range)){
