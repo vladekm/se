@@ -6,8 +6,29 @@ module.exports = api;
 
 function wall_in_range(walls, me, visibility){
     if (me.direction == 'top'){
-        for (q=1; q <= visibility; q++){
+        for (q=0; q <= visibility; q++){
             if (is_wall(walls, me.x, me.y-q)){
+                return true;
+            }
+        }
+    }
+    if (me.direction == 'bottom'){
+        for (q=0; q <= visibility; q++){
+            if (is_wall(walls, me.x, me.y+q)){
+                return true;
+            }
+        }
+    }
+    if (me.direction == 'left'){
+        for (q=0; q <= visibility; q++){
+            if (is_wall(walls, me.x-q, me.y)){
+                return true;
+            }
+        }
+    }
+    if (me.direction == 'right'){
+        for (q=0; q <= visibility; q++){
+            if (is_wall(walls, me.x+q, me.y)){
                 return true;
             }
         }
